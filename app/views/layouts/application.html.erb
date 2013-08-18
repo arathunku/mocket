@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="ROBOTS" content="NOODP" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= page_title %></title>
   <%= stylesheet_link_tag :application, :media => 'all' %>
   <%= csrf_meta_tags %>
+  <%= yield(:javascript ) %>
 </head>
-<body class="<%= body_class %>">
+<body class="<%= body_class %>" data-controller="<%= controller_name %>" data-action="<%= action_name %>">
   <%= render 'flashes' -%>
   <%= yield %>
   <%= render 'javascript' %>

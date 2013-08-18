@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require /prefilled_input
+//= require bootstrap.min
+//= require prefilled_input
