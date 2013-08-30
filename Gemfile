@@ -36,11 +36,17 @@ group :development do
 end
 
 group :development, :test do
+  gem 'guard-rspec', '2.5.0'
+  gem 'spork-rails', github: 'sporkrb/spork-rails'
+  gem 'guard-spork', '1.5.0'
+  gem 'childprocess', '0.3.6'
+
   gem 'factory_girl_rails'
   gem 'rspec-rails', '>= 2.14'
 end
 
 group :test do
+  gem 'libnotify', '0.8.0'
   gem 'capybara-webkit', '>= 0.14.1'
   gem 'database_cleaner'
   gem 'launchy'
