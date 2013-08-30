@@ -47,7 +47,7 @@ after_fork do |server, worker|
 
   begin
     uid, gid = Process.euid, Process.egid
-    user, group = 'git', 'git'
+    user, group = 'ubuntu', 'ubuntu'
     target_uid = Etc.getpwnam(user).uid
     target_gid = Etc.getgrnam(group).gid
     worker.tmp.chown(target_uid, target_gid)
