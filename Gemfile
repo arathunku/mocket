@@ -29,6 +29,7 @@ gem 'byebug'
 group :development do
   gem 'foreman'
   gem 'better_errors'
+  gem 'quiet_assets'
   gem 'binding_of_caller'
   gem "capistrano"
   gem 'capistrano-unicorn', :require => false

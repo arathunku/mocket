@@ -5,7 +5,6 @@ Mocket::Application.configure do
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -25,6 +24,7 @@ Mocket::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
+  config.assets.logger = false
   config.assets.debug = true
 
   config.action_controller.action_on_unpermitted_parameters = :raise
