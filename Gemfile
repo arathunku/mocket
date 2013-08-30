@@ -30,6 +30,8 @@ group :development do
   gem 'foreman'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem "capistrano"
+  gem 'capistrano-unicorn', :require => false
 end
 
 group :development, :test do
@@ -51,3 +53,4 @@ group :staging, :production do
   gem 'newrelic_rpm', '>= 3.5.7'
   gem 'rails_12factor'
 end
+gem 'rvm-capistrano'
