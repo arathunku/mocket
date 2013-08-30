@@ -10,8 +10,8 @@ preload_app true
 
 listen "/tmp/unicorn.sock", :backlog => 64
 
-stderr_path rails_root + "/log/unicorn.stderr.log"
-stdout_path rails_root + "/log/unicorn.stdout.log"
+stderr_path APP_PATH + "/log/unicorn.stderr.log"
+stdout_path APP_PATH + "/log/unicorn.stdout.log"
 
 pid "#{APP_PATH}/tmp/pids/unicorn.pid"
 
