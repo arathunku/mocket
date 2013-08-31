@@ -28,6 +28,7 @@ gem 'byebug'
 gem "omniauth-google-oauth2"
 
 group :development do
+  gem 'annotate'
   gem 'foreman'
   gem 'better_errors'
   gem 'quiet_assets'
