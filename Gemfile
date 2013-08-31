@@ -25,6 +25,7 @@ gem "meta-spotify", "~> 0.3.1"
 gem "lastfm", "~> 1.20.1"
 
 gem 'byebug'
+gem "omniauth-google-oauth2"
 
 group :development do
   gem 'foreman'

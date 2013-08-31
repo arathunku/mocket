@@ -1,0 +1,6 @@
+= content_for(:extra_body_classes, 'main-page')
+= render 'header'
+.container
+  .head.row
+    p.lead
+      = current_user.email

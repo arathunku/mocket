@@ -1,5 +1,4 @@
 class PagesController < HighVoltage::PagesController
-  #before_filter :authenticate
   layout :layout_for_page
 
   protected
