@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   protected
   def authenticate_user
     redirect_to root_path unless signed_in?
+    if Rails.env.production?
+      flash[:message] = "Currently access to the specific-user subpages is restricted."
+      redirect_to root_path
+    end
   end
 
   def current_user
