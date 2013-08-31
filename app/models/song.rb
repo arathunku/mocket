@@ -13,6 +13,8 @@
 #
 
 class Song < ActiveRecord::Base
+  include LastfmGetter
+
   belongs_to :artist
 
   validates :name, presence: true
@@ -23,11 +25,13 @@ class Song < ActiveRecord::Base
     if info && info["track"]
       track = info["track"]
       artist = Artist.find_or_create(track["artist"])
+      artist.fill_up_tags(track["toptags"]["tag"])
+      album = Album.find_or_create(track["album"], artist)
 
       song = artist.songs.create(
         name: track["name"],
         mbid: track["mbid"],
-        lastfm_link: track["link"]
+        album_id: album.id
       )
     end
     song
@@ -35,6 +39,13 @@ class Song < ActiveRecord::Base
 
 
   def self.lastfm_information(information)
-    return {}
+    link = create_link("track.search", {track: information})
+    json = get_json_from(link)
+    if json["results"] && json["results"]["opensearch:totalResults"].to_i > 0
+      song = json["results"]["trackmatches"]["track"].first
+      link = create_link("track.getInfo", {mbid: song["mbid"]})
+      json = get_json_from(link)
+    end
+    json
   end
 end

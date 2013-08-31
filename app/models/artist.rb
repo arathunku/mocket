@@ -12,6 +12,8 @@
 
 class Artist < ActiveRecord::Base
   has_many :songs
+  has_many :albums
+  has_and_belongs_to_many :tags
 
   validates :mbid, presence: true, uniqueness: { case_sensitive: false}
   validates :name, presence: true, uniqueness: true
@@ -26,5 +28,12 @@ class Artist < ActiveRecord::Base
         )
     end
     artist
+  end
+
+  def fill_up_tags(tags_to_add=[])
+    tags_to_add.each do |tag|
+      tag = Tag.where(name: tag["name"]).first_or_create
+      ArtistsTags.create(artist_id: id, tag: tag)
+    end
   end
 end

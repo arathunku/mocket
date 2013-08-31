@@ -78,5 +78,25 @@ describe Artist do
         }.to change{Artist.count}.by(1)
       end
     end
+
+    describe "#fill_up_tags" do
+      before do
+        @tags = song_lastfm["track"]["toptags"]["tag"]
+        @artist = FactoryGirl.create(:artist)
+      end
+
+      it "creates tags if absent" do
+        expect {
+          @artist.fill_up_tags(@tags)
+        }.to change{Tag.count}.by(@tags.size)
+      end
+
+      it "links with exisitng tag" do
+        FactoryGirl.create(:tag, name: @tags.first["name"])
+        expect {
+          @artist.fill_up_tags(@tags)
+        }.to change{Tag.count}.by(@tags.size-1)
+      end
+    end
   end
 end
