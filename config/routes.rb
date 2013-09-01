@@ -7,5 +7,8 @@ Mocket::Application.routes.draw do
   get '/login' => redirect { '/auth/google_oauth2' }
 
 
+  get '/archives', to: 'users#archives', as: "archives"
+  get '/dashboard', to: 'users#dashboard', as: "dashboard"
+  get '/favorites', to: 'users#favorites', as: "favorites"
   get '/settings', to: 'users#settings', as: "settings"
 end

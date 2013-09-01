@@ -14,5 +14,9 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: { case_sensitive: false}
   validates :name, presence: true
 
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
+
+  def photo
+    authorizations.first.photo
+  end
 end
