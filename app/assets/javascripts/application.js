@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require prefilled_input
+//= require offcanvas_dashboard

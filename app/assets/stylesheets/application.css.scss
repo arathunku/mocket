@@ -6,3 +6,14 @@
 @import 'bourbon';
 @import 'neat';
 
+ul, ol {
+  list-style: none;
+}
+
+.margin-top {
+  margin-top: 1em;
+}
+
+.hide {
+  display: none;
+}

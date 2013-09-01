@@ -7,10 +7,11 @@ header.navbar.navbar-hover
         span.icon-bar
       a.navbar-brand {href="/"} Mocket
     nav.collapse.navbar-collapse {role="navigation"}
-      ul.nav.navbar-nav
-        li
+      ul.nav.navbar-nav.pull-right
         - if signed_in?
-          li
+          li class=('active' if active?(:dashboard))
+            a{href="#{dashboard_path}"}Dashboard
+          li class=('active' if active?(:settings))
             a{href="#{settings_path}"}Settings
           li
             a{href="#{logout_path}"}Logout

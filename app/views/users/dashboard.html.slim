@@ -1,0 +1,45 @@
+= content_for(:extra_body_classes, 'main-page')
+= render 'header'
+.container
+  .row.row-offcanvas.row-offcanvas-left
+    .col-xs-6.col-sm-3.sidebar-offcanvas#sidebar role="navigation"
+      .sidebar-nav
+        section.user-info
+          a{href="#"}
+            img.avatar src="#{current_user.photo}"
+            h1=current_user.name
+        ul.nav-lists
+          li.nav-song-list
+            a{href="#{dashboard_path}"} Song list
+          li.nav-favorite
+            a{href="#{favorites_path}"} Favorites
+          li.nav-archive
+            a{href="#{archives_path}"} Archives
+    .col-xs-12.col-sm-9
+      div.visible-xs.toggle-canvas
+        button.btn.btn-default.btn-xs.btn-offcanvas {data-toggle="offcanvas" type="button"} Toggle nav
+      section.row.songs-container
+        header.songs-controls.clearfix
+          .col-xs-4.col-sm-4
+            h1 SONG LIST
+          .col-xs-8.col-sm-offset-2.col-sm-6
+            .input-group.pull-right
+              input.form-control {type="text"}
+              span.input-group-btn
+                button.btn.btn-default {type="button"} Add
+        ul.songs-list
+          - @songs.each do |song|
+            = render 'song', song: song
+    .row
+      .col-sm-12
+        ul.pagination.pull-right
+          li.disabled
+            a{href="#"} &laquo;
+          li.active
+            a{href="#"} 1 <span class="sr-only">(current)</span>
+          li
+            a{href="#"} 2
+          li
+            a{href="#"} 3
+          li
+            a{href="#"} &raquo;
