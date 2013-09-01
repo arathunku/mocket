@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         user = User.new(email: auth_hash[:info][:email],
           name: auth_hash[:info][:name])
         user.authorizations.build(provider: auth_hash[:provider],
-          uid: auth_hash[:uid], link: auth_hash[:link])
+          uid: auth_hash[:uid], link: auth_hash[:link], photo: auth_hash[:info][:image])
         user.save
       end
       session[:user_id] = @authorization ? @authorization.user_id : user.id
