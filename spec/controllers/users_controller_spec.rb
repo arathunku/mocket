@@ -1,21 +1,26 @@
 require 'spec_helper'
 
 describe UsersController do
-  describe "#SETTINGS" do
-    context "unauthorized" do
-      before do
-        get :settings
+  describe "access to user sites" do
+    [:settings, :dashboard, :archives, :favorites].each do |site|
+      it "not logged" do
+        get site
+        expect(response.status).to eq(302)
       end
-      it { should respond_with(:redirect) }
-    end
 
-    context "authorized" do
-      before do
+      it "logged but not invited" do
         user = FactoryGirl.create(:user)
         session[:user_id] = user.id
-        get :settings
+        get site
+        expect(response.status).to eq(302)
       end
-      it { should render_template("settings") }
+
+      it "logged and invited" do
+        user = FactoryGirl.create(:user, invited: true)
+        session[:user_id] = user.id
+        get site
+        expect(response.status).to eq(200)
+      end
     end
   end
 end
