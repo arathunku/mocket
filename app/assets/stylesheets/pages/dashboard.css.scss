@@ -35,42 +35,16 @@
       width: 50%; /* 6 columns */
     }
   }
+
   .toggle-canvas {
     text-align: left;
   }
+
   a:hover {
     cursor: pointer;
   }
-  .user-info {
-    margin-bottom: 20px;
-    .avatar {
-      width: 17%;
-      height: auto;
-      border: 1px solid #e7e7e7;
-      border-radius: 3px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      display: inline-block;
-      float: left;
-      padding: 2px;
-    }
 
-    h1 {
-      font-size: 1.5em;
-      padding-top: 0.25em;
-      margin: 0px;
-    }
-  }
-  .nav-lists {
-    text-align: left;
-    padding: 0px;
-    li {
-      padding: 0.8em 0.1em;
-      font-size: 1.1em;
-      border-bottom: 1px solid #e2ddd6;
-    }
-  }
+  @include navbar-dashboard;
 
   .songs-container {
     margin-top: 10px;
@@ -88,50 +62,10 @@
 
     .songs-list {
       padding: 0px;
-      .song {
-        margin-top: 20px;
-        border: 1px solid #ececec;
-        border-bottom-color: #e2e2e2;
-        border-radius: 2px;
-        margin-bottom: 1.1em;
-        padding: 0.6em 1em 0.6em 1.5em;
-        .title {
-          padding: 0px 0px 0px 0.2em;
-          text-align: left;
-          h3 {
-            font-size: 1.5em;
-            margin: 0px;
-            padding: 0px;
-          }
-        }
-        .action-container {
-          .action {
-            float: right;
-            padding: 0em 0.25em 0em 0.25em;
-          }
-        }
-        .source-select {
-        }
-        .embed {
-        }
-
-        .sad {
-          font-size: 5em;
-        }
-
-        .youtube {
-          position: relative;
-          padding-bottom: 56.25%;
-          padding-top: 30px; height: 0; overflow: hidden;
-          iframe, object, embed {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-          }
-        }
+      .menu {
+        padding: 5px;
       }
+      @include song;
     }
   }
 }

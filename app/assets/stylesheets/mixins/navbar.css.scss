@@ -1,0 +1,33 @@
+@mixin navbar-dashboard {
+  .user-info {
+    margin-bottom: 20px;
+    .avatar {
+      width: 17%;
+      height: auto;
+      border: 1px solid #e7e7e7;
+      border-radius: 3px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline-block;
+      float: left;
+      padding: 2px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      padding-top: 0.25em;
+      margin: 0px;
+    }
+  }
+
+  .nav-lists {
+    text-align: left;
+    padding: 0px;
+    li {
+      padding: 0.8em 0.1em;
+      font-size: 1.1em;
+      border-bottom: 1px solid #e2ddd6;
+    }
+  }
+}

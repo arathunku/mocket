@@ -37,6 +37,9 @@ class Song < ActiveRecord::Base
     song
   end
 
+  def tags
+    []
+  end
 
   def self.lastfm_information(information)
     link = create_link("track.search", {track: information})

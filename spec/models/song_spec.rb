@@ -118,5 +118,16 @@ describe Song do
         end
       end
     end
+
+    describe "#tags" do
+      before(:each) do
+        @song = FactoryGirl.create(:song)
+      end
+
+      it "returns array" do
+        expect(@song.tags.class).to eq(Array)
+      end
+    end
+
   end
 end
