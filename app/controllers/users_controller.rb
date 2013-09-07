@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @songs = [1]
+    @songs = Song.all
   end
 
   def favorites

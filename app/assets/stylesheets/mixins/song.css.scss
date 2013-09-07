@@ -1,0 +1,78 @@
+@mixin song {
+  .song {
+    margin-top: 20px;
+    border: 1px solid #ececec;
+    border-bottom-color: #e2e2e2;
+    border-radius: 2px;
+    margin-bottom: 1.1em;
+    padding: 0.6em 1em 0.6em 1.5em;
+
+    .title {
+      padding: 0px 0px 0px 0.2em;
+      text-align: left;
+      h3 {
+        font-size: 1.5em;
+        margin: 0px;
+        padding: 0px;
+      }
+    }
+
+    .action-container {
+      .action {
+        float: right;
+        padding: 0em 0.25em 0em 0.25em;
+      }
+    }
+    .actionbar-toggle {
+      width: 3em;
+      position: relative;
+      float: right;
+      padding: 9px 10px;
+      background-color: transparent;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      &:hover {
+        background-color: #ddd;
+      }
+      .icon-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background-color: #ccc;
+        border-radius: 1px;
+      }
+      .icon-bar+.icon-bar {
+        margin-top: 4px;
+      }
+    }
+    .navbar-collapse {
+      border: none
+    }
+
+    .source-select {
+    }
+
+    .embed {
+      @include services
+    }
+
+    .tags {
+      text-align: left;
+      padding: 0
+    }
+
+    .tag {
+      float: left;
+      padding: 3px 10px;
+      margin: 0px 5px;
+      background: #e7e7e7;
+      &:before {
+        content: '#';
+      }
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}
