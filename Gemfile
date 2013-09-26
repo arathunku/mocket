@@ -26,6 +26,7 @@ gem "lastfm", "~> 1.20.1"
 
 gem 'byebug'
 gem "omniauth-google-oauth2"
+gem 'will_paginate', '~> 3.0.5'
 
 group :development do
   gem 'annotate'
@@ -42,12 +43,12 @@ group :development, :test do
   gem 'spork-rails', github: 'sporkrb/spork-rails'
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
-
   gem 'factory_girl_rails'
   gem 'rspec-rails', '>= 2.14'
 end
 
 group :test do
+  gem 'rack_session_access'
   gem 'libnotify', '0.8.0'
   gem 'capybara-webkit', '>= 0.14.1'
   gem 'database_cleaner'

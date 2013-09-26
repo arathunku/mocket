@@ -1,4 +1,4 @@
-.users-dashboard {
+.users-dashboard, .users-favorites, .users-archives {
   /*
    * Off Canvas
    * --------------------------------------------------
@@ -45,6 +45,7 @@
   }
 
   @include navbar-dashboard;
+  @include sidebar-dashboard;
 
   .songs-container {
     margin-top: 10px;

@@ -1,0 +1,15 @@
+.sidebar-nav
+  section.user-info
+    a{href="#"}
+      img.avatar src="#{current_user.photo}"
+      h1=current_user.name
+  ul.nav-lists
+    li class="nav-song-list  #{'active' if action_name == "dashboard"}"
+      a{href="#{dashboard_path}"} Song list
+      span.count.pull-right #{@count[:current] if @count[:current] > 0}
+    li class="nav-favorite  #{'active' if action_name == "favorites"}"
+      a{href="#{favorites_path}"} Favorites
+      span.count.pull-right #{@count[:favorites] if @count[:favorites] > 0}
+    li class="nav-archive  #{'active' if action_name == "archives"}"
+      a{href="#{archives_path}"} Archives
+      span.count.pull-right #{@count[:archives] if @count[:archives] > 0}
