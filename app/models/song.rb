@@ -28,7 +28,8 @@ class Song < ActiveRecord::Base
       artist.fill_up_tags(track["toptags"]["tag"])
       album = Album.find_or_create(track["album"], artist)
 
-      song = artist.songs.create(
+      song = Song.where(mbid: track["mbid"]).first
+      song ||= artist.songs.create(
         name: track["name"],
         mbid: track["mbid"],
         album_id: album.id

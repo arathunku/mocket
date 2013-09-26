@@ -1,0 +1,35 @@
+li.song.clearfix
+  div.menu.row
+    a.title.pull-left.col-md-5{href="#"}
+      h3 #{song.artist.name} - #{song.name}
+    .visible-xs
+      button.actionbar-toggle.collapsed data-target=".action-container-collapse" data-toggle="collapse" type="button"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    .col-sm-5.pull-right.action-container-collapse.navbar-collapse.collapse
+      ul.action-container
+        li.delete.action
+          = link_to post_path(post), method: :delete do
+            | Delete
+        li.archive.action
+          = link_to archive_path(post), method: :put do
+            | #{post.archived ? 'Unarchive' : 'Archive'}
+        li.favorite.action
+          = link_to favorite_path(post), method: :put do
+            | #{post.favorite ? 'Unfavorite' : 'Favorite'}
+  .row.embed.margin-top
+    .col-sm-8.col-md-offset-3.col-sm-offset-2.col-xs-12.col-md-6
+      .youtube.hide
+      .spotify.hide
+      .sad
+        p
+          | :(
+  .row.tools.margin-top
+    .col-sm-4.hidden-xs.tags
+      - song.tags.each do |tag|
+        .tag tag
+    .col-sm-4.col-sm-offset-4.col-xs-12
+      select.source-select.form-control.pull-right
+        option{value="1"} Youtube
+        option{value="2"} Spotify

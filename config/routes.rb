@@ -8,7 +8,16 @@ Mocket::Application.routes.draw do
 
 
   get '/archives', to: 'users#archives', as: "archives"
+  put '/posts/:id/archive', to: 'users#archive', as: "archive"
+
   get '/dashboard', to: 'users#dashboard', as: "dashboard"
+  post '/dashboard', to: 'users#new_song'
+
   get '/favorites', to: 'users#favorites', as: "favorites"
+  put '/posts/:id/favorite', to: 'users#favorite', as: "favorite"
+
+  delete '/posts/:id', to: 'users#destroy_song', as: "post"
+
   get '/settings', to: 'users#settings', as: "settings"
+
 end

@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :authorization do
     provider "google_oauth2"
-    user_id 2
+    user
     uid "123"
     photo "link_to_photo"
     link "link_to_profile"

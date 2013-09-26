@@ -3,18 +3,7 @@
 .container
   .row.row-offcanvas.row-offcanvas-left
     .col-xs-6.col-sm-3.sidebar-offcanvas#sidebar role="navigation"
-      .sidebar-nav
-        section.user-info
-          a{href="#"}
-            img.avatar src="#{current_user.photo}"
-            h1=current_user.name
-        ul.nav-lists
-          li.nav-song-list
-            a{href="#{dashboard_path}"} Song list
-          li.nav-favorite
-            a{href="#{favorites_path}"} Favorites
-          li.nav-archive
-            a{href="#{archives_path}"} Archives
+      = render 'sidebar'
     .col-xs-12.col-sm-9
       div.visible-xs.toggle-canvas
         button.btn.btn-default.btn-xs.btn-offcanvas {data-toggle="offcanvas" type="button"} Toggle nav
@@ -23,23 +12,15 @@
           .col-xs-4.col-sm-4
             h1 SONG LIST
           .col-xs-8.col-sm-offset-2.col-sm-6
-            .input-group.pull-right
-              input.form-control {type="text"}
-              span.input-group-btn
-                button.btn.btn-default {type="button"} Add
+            = form_tag(dashboard_path, method: :post, class: "add-post") do |f|
+              .input-group.pull-right {type="text"}
+                input.form-control.search#post_search name="post[search]"
+                span.input-group-btn
+                  button.btn.btn-default.add {type="submit"} Add
         ul.songs-list
-          - @songs.each do |song|
-            = render 'song', song: song
+          - @posts.each do |post|
+            = render 'post', post: post, song: post.song
       .row
         .col-sm-12
           ul.pagination
-            li.disabled
-              a{href="#"} &laquo;
-            li.active
-              a{href="#"} 1 <span class="sr-only">(current)</span>
-            li
-              a{href="#"} 2
-            li
-              a{href="#"} 3
-            li
-              a{href="#"} &raquo;
+            = will_paginate @posts
