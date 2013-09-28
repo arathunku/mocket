@@ -3,15 +3,15 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', '~>4.0.0'
-gem "figaro"
+gem "figaro", '~> 0.7.0'
 gem 'bourbon'
-gem 'coffee-rails'
+gem 'coffee-rails', '~> 4.0.0'
 gem 'delayed_job_active_record', '>= 4.0.0.beta2'
 gem 'email_validator'
-gem 'flutie'
+gem 'flutie', '~> 2.0.0'
 gem 'high_voltage'
-gem 'jquery-rails'
-gem 'neat'
+gem 'jquery-rails', '~> 3.0.4'
+gem 'neat', '~> 1.3.0'
 gem 'pg'
 gem 'rack-timeout'
 gem 'recipient_interceptor'
@@ -19,23 +19,24 @@ gem 'sass-rails'
 gem 'simple_form'
 gem 'uglifier'
 gem 'unicorn'
-gem 'slim'
+gem 'slim', '~> 2.0.1'
 #lookup
 gem "meta-spotify", "~> 0.3.1"
 gem "lastfm", "~> 1.20.1"
+gem "youtube_it", "~> 2.3.2"
 
 gem 'byebug'
-gem "omniauth-google-oauth2"
+gem "omniauth-google-oauth2", '~> 0.2.1'
 gem 'will_paginate', '~> 3.0.5'
 
 group :development do
   gem 'annotate'
-  gem 'foreman'
+  gem 'foreman', '~> 0.63.0'
   gem 'better_errors'
   gem 'quiet_assets'
   gem 'binding_of_caller'
-  gem "capistrano"
-  gem 'capistrano-unicorn', :require => false
+  gem "capistrano", '~> 2.15.5'
+  gem 'capistrano-unicorn', '~> 0.1.10', :require => false
 end
 
 group :development, :test do
@@ -43,7 +44,7 @@ group :development, :test do
   gem 'spork-rails', github: 'sporkrb/spork-rails'
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '~> 4.2.1'
   gem 'rspec-rails', '>= 2.14'
 end
 
@@ -53,7 +54,7 @@ group :test do
   gem 'capybara-webkit', '>= 0.14.1'
   gem 'database_cleaner'
   gem 'launchy'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 2.3.0'
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'webmock'
@@ -63,4 +64,5 @@ group :staging, :production do
   gem 'newrelic_rpm', '>= 3.5.7'
   gem 'rails_12factor'
 end
+
 gem 'rvm-capistrano'
