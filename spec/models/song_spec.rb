@@ -50,7 +50,7 @@ describe Song do
     end
   end
 
-  context "callbacks: " do
+  context "callbacks " do
   end
 
   context "methods: " do
@@ -79,6 +79,7 @@ describe Song do
     describe "#create_from_lastfm" do
       before(:each) do
         Song.stub(:lastfm_information).and_return(song_lastfm)
+        Song.stub(:update_youtube).and_return(true)
         @artist = FactoryGirl.create(:artist)
         @album = FactoryGirl.create(:album, artist: @artist)
       end
@@ -90,9 +91,10 @@ describe Song do
 
       it "calls for fill_up_tags" do
         Artist.should_receive(:find_or_create).and_return(@artist)
-        @artist.should_receive(:fill_up_tags)
+        expect(@artist).to receive(:fill_up_tags)
         Song.create_from_lastfm("coma - transfuzja")
       end
+
 
       context "song found" do
         before(:each) do
@@ -108,6 +110,11 @@ describe Song do
 
         it "call for album" do
           expect(Album).to receive(:find_or_create) { @album }
+          Song.create_from_lastfm("coma - transfuzja")
+        end
+
+        it "calls for update_youtube " do
+          Song.any_instance.should_receive(:update_youtube)
           Song.create_from_lastfm("coma - transfuzja")
         end
 
@@ -129,5 +136,38 @@ describe Song do
       end
     end
 
+    describe "#full_name" do
+      it "return information with artist" do
+        expect(@song.full_name).to eq("#{@song.artist.name} - #{@song.name}")
+      end
+      it "if no artist(no song!) return name" do
+        @song.artist_id = nil
+        expect(@song.full_name).to eq("#{@song.name}")
+      end
+    end
+
+    it "#youtube" do
+      expect(@song.youtube.class).to eq(Youtube)
+    end
+
+    describe "#update_youtube" do
+      it "calls for video information" do
+        Youtube.stub(:videos_by)
+        YouTubeIt::Response::VideoSearch.stub(:videos).and_return([])
+        Youtube.should_receive(:videos_by).and_return(YouTubeIt::Response::VideoSearch)
+        @song.update_youtube
+      end
+    end
+
+    describe "#serices" do
+      it "empty array if no service" do
+        @song.youtube_id = nil
+        expect(@song.services).to eq([])
+      end
+
+      it "contain youtube" do
+        expect(@song.services).to include(@song.youtube)
+      end
+    end
   end
 end

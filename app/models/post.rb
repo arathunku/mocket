@@ -26,8 +26,13 @@ class Post < ActiveRecord::Base
 
   after_create :fillup_song
 
+  def song
+    return super() if super()
+    Song.new(name: search)
+  end
+
   def fillup_song
     song = Song.create_from_lastfm(search)
-    update_attribute(:song_id, song.id)
+    update_attribute(:song_id, song.id) if song
   end
 end

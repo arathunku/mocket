@@ -34,12 +34,9 @@ class Song < ActiveRecord::Base
         mbid: track["mbid"],
         album_id: album.id
       )
+      song.update_youtube
     end
     song
-  end
-
-  def tags
-    []
   end
 
   def self.lastfm_information(information)
@@ -47,9 +44,40 @@ class Song < ActiveRecord::Base
     json = get_json_from(link)
     if json["results"] && json["results"]["opensearch:totalResults"].to_i > 0
       song = json["results"]["trackmatches"]["track"].first
+      return nil if song.class != Hash || !song["mbid"].present?
       link = create_link("track.getInfo", {mbid: song["mbid"]})
       json = get_json_from(link)
     end
     json
+  end
+
+  def full_name
+    if artist
+      "#{artist.name} - #{name}"
+    else
+      "#{name}"
+    end
+  end
+
+  def tags
+    []
+  end
+
+  def youtube
+    if youtube_id
+      @youtube ||= Youtube.new(youtube_id)
+    else
+      nil
+    end
+  end
+
+  def services
+    ['youtube'].map{|e| self.send(e)}.compact
+  end
+
+  def update_youtube
+    result = Youtube.videos_by(query: full_name, page: 1,
+      per_page: 1).videos.first
+    update_attributes(youtube_id: result.unique_id) if result
   end
 end

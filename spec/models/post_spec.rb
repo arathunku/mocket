@@ -55,5 +55,19 @@ describe Post do
         expect(@post.reload.song_id).to eq(@song.id)
       end
     end
+
+    describe "#song" do
+      it "if post does not have song, return new instance of song with search query as name" do
+        @post.song_id = nil
+        @post.search = "abcd"
+        expect(@post.song.id).to eq(nil)
+        expect(@post.song.name).to eq(@post.search)
+      end
+      it "return song object" do
+        @song = FactoryGirl.build(:song)
+        @post.song_id = @song
+        expect(@post.song.id).to eq(@song.id)
+      end
+    end
   end
 end

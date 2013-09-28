@@ -21,6 +21,7 @@ class Artist < ActiveRecord::Base
 
   def self.find_or_create(lastfm_info)
     artist = Artist.find_by_mbid(lastfm_info["mbid"])
+    artist ||= Artist.find_by_name(lastfm_info["name"])
     unless artist
       artist = Artist.create(name: lastfm_info["name"],
           mbid: lastfm_info["mbid"],
@@ -31,6 +32,7 @@ class Artist < ActiveRecord::Base
   end
 
   def fill_up_tags(tags_to_add=[])
+    tags_to_add = [tags_to_add] if tags_to_add.class == Hash
     tags_to_add.each do |tag|
       tag = Tag.where(name: tag["name"]).first_or_create
       ArtistsTags.create(artist_id: id, tag: tag)
