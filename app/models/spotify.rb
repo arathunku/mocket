@@ -19,7 +19,7 @@ class Spotify
   end
 
   def html
-    "<div class=\"spotify><iframe src=\"https://embed.spotify.com/?uri=spotify:track:#{id}\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe></div>\n"
+    "<div class=\"spotify\"><iframe src=\"https://embed.spotify.com/?uri=spotify:track:#{id}\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe></div>\n"
   end
 
   def name
