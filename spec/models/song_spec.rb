@@ -79,7 +79,8 @@ describe Song do
     describe "#create_from_lastfm" do
       before(:each) do
         Song.stub(:lastfm_information).and_return(song_lastfm)
-        Song.stub(:update_youtube).and_return(true)
+        Song.any_instance.stub(:update_youtube).and_return(true)
+        Song.any_instance.stub(:update_spotify).and_return(true)
         @artist = FactoryGirl.create(:artist)
         @album = FactoryGirl.create(:album, artist: @artist)
       end
@@ -118,6 +119,11 @@ describe Song do
           Song.create_from_lastfm("coma - transfuzja")
         end
 
+        it "calls for update_spotify" do
+          Song.any_instance.should_receive(:update_spotify)
+          Song.create_from_lastfm("coma - transfuzja")
+        end
+
         it "creates song" do
           expect {
             Song.create_from_lastfm("coma - transfuzja")
@@ -150,8 +156,12 @@ describe Song do
       expect(@song.youtube.class).to eq(Youtube)
     end
 
+    it "#spotify" do
+      expect(@song.spotify.class).to eq(Spotify)
+    end
+
     describe "#update_youtube" do
-      it "calls for video information" do
+      it "calls for youtube information" do
         Youtube.stub(:videos_by)
         YouTubeIt::Response::VideoSearch.stub(:videos).and_return([])
         Youtube.should_receive(:videos_by).and_return(YouTubeIt::Response::VideoSearch)
@@ -159,9 +169,17 @@ describe Song do
       end
     end
 
+    describe "#update_spotify" do
+      it "calls for spotify information" do
+        Spotify.should_receive(:get_id).and_return('id')
+        @song.update_spotify
+      end
+    end
+
     describe "#serices" do
       it "empty array if no service" do
         @song.youtube_id = nil
+        @song.spotify_id = nil
         expect(@song.services).to eq([])
       end
 

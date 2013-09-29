@@ -35,6 +35,7 @@ class Song < ActiveRecord::Base
         album_id: album.id
       )
       song.update_youtube
+      song.update_spotify
     end
     song
   end
@@ -71,13 +72,26 @@ class Song < ActiveRecord::Base
     end
   end
 
+  def spotify
+    if spotify_id
+      @spotify ||= Spotify.new(spotify_id)
+    else
+      nil
+    end
+  end
+
   def services
-    ['youtube'].map{|e| self.send(e)}.compact
+    ['youtube', 'spotify'].map{|e| self.send(e)}.compact
   end
 
   def update_youtube
     result = Youtube.videos_by(query: full_name, page: 1,
       per_page: 1).videos.first
     update_attributes(youtube_id: result.unique_id) if result
+  end
+
+  def update_spotify
+    id = Spotify.get_id(full_name)
+    update_attributes(spotify_id: id) if id
   end
 end

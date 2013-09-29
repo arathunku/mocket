@@ -5,6 +5,7 @@ feature 'Favorites' do
   before do
     Song.stub(:lastfm_information).and_return(song_lastfm)
     @user = FactoryGirl.create(:user)
+    MetaSpotify::Track.stub(:search).and_return(nil)
     page.set_rack_session(:user_id => @user.id)
     @song = FactoryGirl.create(:song, name: "Transfuzja")
     @user.posts.create(search: 'transfuzja')
@@ -27,6 +28,7 @@ feature 'Archives' do
   before do
     Song.stub(:lastfm_information).and_return(song_lastfm)
     @user = FactoryGirl.create(:user)
+    MetaSpotify::Track.stub(:search).and_return(nil)
     page.set_rack_session(:user_id => @user.id)
     @song = FactoryGirl.create(:song, name: "Transfuzja")
     @user.posts.create(search: 'transfuzja')
