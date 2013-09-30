@@ -36,6 +36,7 @@ class Song < ActiveRecord::Base
       )
       song.update_youtube
       song.update_spotify
+      song.update_deezer
     end
     song
   end
@@ -80,8 +81,16 @@ class Song < ActiveRecord::Base
     end
   end
 
+  def deezer
+    if deezer_id
+      @deezer ||= Deezer.new(deezer_id)
+    else
+      nil
+    end
+  end
+
   def services
-    ['youtube', 'spotify'].map{|e| self.send(e)}.compact
+    ['youtube', 'spotify', 'deezer'].map{|e| self.send(e)}.compact
   end
 
   def update_youtube
@@ -93,5 +102,10 @@ class Song < ActiveRecord::Base
   def update_spotify
     id = Spotify.get_id(full_name)
     update_attributes(spotify_id: id) if id
+  end
+
+  def update_deezer
+    id = Deezer.get_id(full_name)
+    update_attributes(deezer_id: id) if id
   end
 end

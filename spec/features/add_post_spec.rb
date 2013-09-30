@@ -7,6 +7,7 @@ feature 'Add post' do
     page.set_rack_session(:user_id => @user.id)
     visit dashboard_path
     MetaSpotify::Track.stub(:search).and_return(nil)
+    Net::HTTP.stub(:get_response).and_return(nil)
     Song.stub(:lastfm_information).and_return(song_lastfm)
   end
   scenario 'proper search' do

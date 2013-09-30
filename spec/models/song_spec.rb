@@ -81,6 +81,7 @@ describe Song do
         Song.stub(:lastfm_information).and_return(song_lastfm)
         Song.any_instance.stub(:update_youtube).and_return(true)
         Song.any_instance.stub(:update_spotify).and_return(true)
+        Song.any_instance.stub(:update_deezer).and_return(true)
         @artist = FactoryGirl.create(:artist)
         @album = FactoryGirl.create(:album, artist: @artist)
       end
@@ -124,6 +125,11 @@ describe Song do
           Song.create_from_lastfm("coma - transfuzja")
         end
 
+        it "calls for update_deezer" do
+          Song.any_instance.should_receive(:update_deezer)
+          Song.create_from_lastfm("coma - transfuzja")
+        end
+
         it "creates song" do
           expect {
             Song.create_from_lastfm("coma - transfuzja")
@@ -160,6 +166,10 @@ describe Song do
       expect(@song.spotify.class).to eq(Spotify)
     end
 
+    it "#deezer" do
+      expect(@song.deezer.class).to eq(Deezer)
+    end
+
     describe "#update_youtube" do
       it "calls for youtube information" do
         Youtube.stub(:videos_by)
@@ -176,15 +186,25 @@ describe Song do
       end
     end
 
+    describe "#update_deezer" do
+      it "calls for deezer information" do
+        Spotify.should_receive(:get_id).and_return('id')
+        @song.update_spotify
+      end
+    end
+
     describe "#serices" do
       it "empty array if no service" do
         @song.youtube_id = nil
         @song.spotify_id = nil
+        @song.deezer_id = nil
         expect(@song.services).to eq([])
       end
 
-      it "contain youtube" do
+      it "contain given service" do
         expect(@song.services).to include(@song.youtube)
+        expect(@song.services).to include(@song.spotify)
+        expect(@song.services).to include(@song.deezer)
       end
     end
   end

@@ -9,5 +9,6 @@ FactoryGirl.define do
     sequence(:name) {|n| "name of the song" }
     sequence(:youtube_id) {|n| "id_#{n*2}-#{n*3}" }
     sequence(:spotify_id) {|n| "id_#{n*2}-#{n*3}" }
+    sequence(:deezer_id) {|n| "id_#{n*2}-#{n*3}" }
   end
 end
