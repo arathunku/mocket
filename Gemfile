@@ -37,6 +37,7 @@ group :development do
   gem 'binding_of_caller'
   gem "capistrano", '~> 2.15.5'
   gem 'capistrano-unicorn', '~> 0.1.10', :require => false
+  gem 'brakeman', :require => false
 end
 
 group :development, :test do
