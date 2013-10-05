@@ -149,5 +149,21 @@ describe UsersController do
         expect(assigns(:posts)).to eq([post_newest, post_older])
       end
     end
+
+    describe "#update" do
+      it "updates permited attributes" do
+        User.any_instance.should_receive(:update_attributes).
+          with({"default_player"=> 'spotify'}).and_return(true)
+        patch :update, {user: {default_player: 'spotify'}}
+        expect(response.status).to eq(302)
+      end
+
+      it "updates permited attributes" do
+        User.any_instance.should_receive(:update_attributes).and_return(nil)
+        patch :update, {user: {email: 'spotify'}}
+        expect(response.status).to eq(302)
+        expect(flash.notice).to match(/problem/)
+      end
+    end
   end
 end

@@ -43,6 +43,20 @@ class UsersController < ApplicationController
   def settings
   end
 
+  def update
+    if current_user.update_attributes(user_params)
+      respond_to do |format|
+        format.html { redirect_to settings_path }
+        format.json { render json: @post, status: 200 }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to settings_path, notice: 'There was a problem with update.' }
+        format.json { render json: @post, status: 422 }
+      end
+    end
+  end
+
   def destroy_song
     @post.destroy
     respond_to do |format|
@@ -73,6 +87,10 @@ class UsersController < ApplicationController
 
   def post_params
     params[:post].permit(:search, :favorite, :archive)
+  end
+
+  def user_params
+    params[:user].permit(:default_player)
   end
 
   def counters

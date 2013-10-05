@@ -9,7 +9,7 @@ header.navbar.navbar-hover
     nav.collapse.navbar-collapse {role="navigation"}
       ul.nav.navbar-nav.pull-right
         - if signed_in?
-          li class=('active' if active?(:dashboard))
+          li class=('active' if active?(:dashboard, :favorites, :archives))
             a{href="#{dashboard_path}"}Dashboard
           li class=('active' if active?(:settings))
             a{href="#{settings_path}"}Settings

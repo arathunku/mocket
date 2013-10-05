@@ -19,5 +19,6 @@ Mocket::Application.routes.draw do
   delete '/posts/:id', to: 'users#destroy_song', as: "post"
 
   get '/settings', to: 'users#settings', as: "settings"
+  patch '/settings', to: 'users#update'
 
 end

@@ -1,0 +1,21 @@
+.users-settings {
+  @include off-canvas;
+
+  .toggle-canvas {
+    text-align: left;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
+
+  @include navbar-dashboard;
+  @include sidebar-dashboard;
+
+  .main {
+    label {
+      line-height: 34px;
+      vertical-align: middle;
+    }
+  }
+}

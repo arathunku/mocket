@@ -1,7 +1,6 @@
 .sidebar-nav
   section.user-info
     a{href="#"}
-      img.avatar src="#{current_user.photo}"
       h1=current_user.name
   ul.nav-lists
     li class="nav-song-list  #{'active' if action_name == "dashboard"}"

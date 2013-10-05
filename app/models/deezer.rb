@@ -10,7 +10,7 @@ class Deezer
   end
 
   def self.get_id(name)
-    response = Net::HTTP.get_response("api.deezer.com","/search?q=#{URI.escape(name)}&access_token=#{ENV['DEEZER_ACCESS']}")
+    response = nil #Net::HTTP.get_response("api.deezer.com","/search?q=#{URI.escape(name)}&access_token=#{ENV['DEEZER_ACCESS']}")
     if response
       begin
         json = JSON.parse(response.body || '')
