@@ -149,5 +149,43 @@ describe UsersController do
         expect(assigns(:posts)).to eq([post_newest, post_older])
       end
     end
+
+    describe "#new_api_song" do
+      before(:each) do
+        @access_token = 'abcd'
+      end
+
+      it "searches for user by access token" do
+        User.should_receive(:find_by_access_token).with(@access_token).and_return(@user)
+        @post.search = ''
+        Post.stub(:new).and_return(@post)
+        post :new_api_song, {post: {}, access_token: @access_token}
+      end
+
+      it "401 if user not found" do
+        User.should_receive(:find_by_access_token).and_return(nil)
+        post :new_api_song, {post: {}, access_token: @access_token}
+        expect(response.status).to eq(401)
+      end
+
+      it "return 422 for empty search" do
+        User.stub(:find_by_access_token).and_return(@user)
+        @post.search = ''
+        Post.should_receive(:new).and_return(@post)
+        post :new_api_song, {post: {}}
+        expect(response.status).to eq(422)
+      end
+
+      it "creats post proper" do
+        User.stub(:find_by_access_token).and_return(@user)
+        hash = {post: {search: @post.search}}
+        Post.should_receive(:new).with({
+          "search"=> @post.search
+        }).and_return(@post)
+        Post.any_instance.should_receive(:save).and_return(@post)
+        post :new_api_song, hash
+        expect(response.status).to eq(200)
+      end
+    end
   end
 end

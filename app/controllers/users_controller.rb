@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user
+  before_action :authenticate_user, except: [:new_api_song]
+  skip_before_action :verify_authenticity_token, only: [:new_api_song]
   before_filter :set_post, only: [:destroy_song, :archive,
     :favorite]
   before_action :counters, only: [:dashboard, :favorites, :archives]
@@ -60,6 +61,17 @@ class UsersController < ApplicationController
         format.html { redirect_to dashboard_path, flash: {error: 'Missing search.'}  }
         format.json { render json: @post, status: 422}
       end
+    end
+  end
+
+  def new_api_song
+    user = User.find_by_access_token(params[:access_token])
+    render json: nil, status: 401 and return unless user
+    post = user.posts.new(post_params)
+    if post.save
+      render json: post, status: 200
+    else
+      render json: post, status: 422
     end
   end
 

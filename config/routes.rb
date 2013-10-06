@@ -12,6 +12,7 @@ Mocket::Application.routes.draw do
 
   get '/dashboard', to: 'users#dashboard', as: "dashboard"
   post '/dashboard', to: 'users#new_song'
+  post '/api/song', to: 'users#new_api_song'
 
   get '/favorites', to: 'users#favorites', as: "favorites"
   put '/posts/:id/favorite', to: 'users#favorite', as: "favorite"
