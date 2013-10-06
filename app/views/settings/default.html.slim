@@ -3,14 +3,14 @@
 .container
   .row.row-offcanvas.row-offcanvas-left
     .col-xs-6.col-sm-3.sidebar-offcanvas#sidebar role="navigation"
-      = render 'sidebar_dashboard'
+      = render 'sidebar'
     .col-xs-12.col-sm-9.main
       div.visible-xs.toggle-canvas
         button.btn.btn-default.btn-xs.btn-offcanvas {data-toggle="offcanvas" type="button"} Toggle nav
       = form_for(current_user, url: settings_path, method: :patch) do |f|
         .row.form-group
           .col-sm-3
-            label{for="disabledTextInput"} Default player:
+            label Default player:
           .col-sm-6
             select.form-control name="user[default_player]"
               option{value="youtube" selected=(select_default_player('youtube'))} Youtube

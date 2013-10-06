@@ -1,0 +1,14 @@
+= content_for(:extra_body_classes, 'main-page')
+= render 'header'
+.container
+  .row.row-offcanvas.row-offcanvas-left
+    .col-xs-6.col-sm-3.sidebar-offcanvas#sidebar role="navigation"
+      = render 'sidebar'
+    .col-xs-12.col-sm-9.main
+      div.visible-xs.toggle-canvas
+        button.btn.btn-default.btn-xs.btn-offcanvas {data-toggle="offcanvas" type="button"} Toggle nav
+      .row.form-group
+        .col-sm-3
+          label{for="api_token"} API TOKEN:
+        .col-sm-6
+          input#api_token.form-control {value="#{current_user.access_token}" disabled}

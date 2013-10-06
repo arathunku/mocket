@@ -19,6 +19,7 @@ describe User do
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
+  it { should respond_to(:access_token) }
 
   it { should have_many(:authorizations) }
   it { should have_many(:posts) }
@@ -43,6 +44,23 @@ describe User do
       end
 
       it { should_not be_valid }
+    end
+  end
+
+  context "callbacks" do
+    it "calls for update token after create" do
+      User.any_instance.stub(:update_token)
+      User.any_instance.should_receive(:update_token)
+      @user.save
+    end
+  end
+
+  context "methods" do
+    describe "#update_token" do
+      it "updates user token until token unique" do
+        User.any_instance.should_receive(:update_attributes).twice.and_return(nil, true)
+        @user.update_token
+      end
     end
   end
 end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
   describe "access to user sites" do
-    [:settings, :dashboard, :archives, :favorites].each do |site|
+    [:dashboard, :archives, :favorites].each do |site|
       it "not logged" do
         get site
         expect(response.status).to eq(302)
@@ -147,22 +147,6 @@ describe UsersController do
           created_at: Time.now+1.hour)
         get :dashboard
         expect(assigns(:posts)).to eq([post_newest, post_older])
-      end
-    end
-
-    describe "#update" do
-      it "updates permited attributes" do
-        User.any_instance.should_receive(:update_attributes).
-          with({"default_player"=> 'spotify'}).and_return(true)
-        patch :update, {user: {default_player: 'spotify'}}
-        expect(response.status).to eq(302)
-      end
-
-      it "updates permited attributes" do
-        User.any_instance.should_receive(:update_attributes).and_return(nil)
-        patch :update, {user: {email: 'spotify'}}
-        expect(response.status).to eq(302)
-        expect(flash.notice).to match(/problem/)
       end
     end
   end
