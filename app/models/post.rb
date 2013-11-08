@@ -10,6 +10,8 @@
 #  search     :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  source_url :string(255)
+#  song_url   :string(255)
 #
 
 class Post < ActiveRecord::Base

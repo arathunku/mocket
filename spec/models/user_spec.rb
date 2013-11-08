@@ -2,12 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  invited    :boolean          default(FALSE)
+#  id             :integer          not null, primary key
+#  name           :string(255)
+#  email          :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  invited        :boolean          default(FALSE)
+#  default_player :string(255)
+#  access_token   :string(255)
 #
 
 require 'spec_helper'
@@ -60,6 +62,14 @@ describe User do
       it "updates user token until token unique" do
         User.any_instance.should_receive(:update_attributes).twice.and_return(nil, true)
         @user.update_token
+      end
+    end
+
+    describe "#history" do
+      it "array of post history" do
+        Post.any_instance.stub(:fillup_song)
+        post = FactoryGirl.create(:post, user: @user, song_url: nil)
+        expect(@user.history).to match_array([post.search, post.source_url])
       end
     end
   end

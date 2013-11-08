@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, except: [:new_api_song]
-  skip_before_action :verify_authenticity_token, only: [:new_api_song]
+  skip_before_action :verify_authenticity_token, only: [:new_api_song, :history]
+  before_action :authenticate_user_by_token, only: [:new_api_song, :history]
   before_filter :set_post, only: [:destroy_song, :archive,
     :favorite]
   before_action :counters, only: [:dashboard, :favorites, :archives]
@@ -65,9 +66,7 @@ class UsersController < ApplicationController
   end
 
   def new_api_song
-    user = User.find_by_access_token(params[:access_token])
-    render json: nil, status: 401 and return unless user
-    post = user.posts.new(post_params)
+    post = @user.posts.new(post_params)
     if post.save
       render json: post, status: 200
     else
@@ -75,13 +74,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def history
+    render json: @user.history, status: 200
+  end
+
   private
+  def authenticate_user_by_token
+    @user = User.find_by_access_token(params[:access_token])
+    render json: nil, status: 401 and return unless @user
+  end
+
   def set_post
     @post = Post.find(params[:id])
   end
 
   def post_params
-    params[:post].permit(:search, :favorite, :archive)
+    params[:post].permit(:archive, :favorite, :search, :song_url,
+      :source_url)
   end
 
   def counters

@@ -2,12 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  invited    :boolean          default(FALSE)
+#  id             :integer          not null, primary key
+#  name           :string(255)
+#  email          :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  invited        :boolean          default(FALSE)
+#  default_player :string(255)
+#  access_token   :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -29,9 +31,14 @@ class User < ActiveRecord::Base
     until update_attributes(access_token: generate_tracking_code(32));end
   end
 
+  def history
+    posts.length > 0 ?
+      posts.pluck(:source_url, :song_url, :search).flatten.compact : []
+  end
+
   private
   def generate_tracking_code(length=32)
     o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-    (0...length).map{ o[rand(o.length)] }.join
+    (0...length).map{ o[rand(o.length)] }.join + Time.now.to_i.to_s
   end
 end

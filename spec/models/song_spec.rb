@@ -10,6 +10,9 @@
 #  album_id    :integer
 #  created_at  :datetime
 #  updated_at  :datetime
+#  youtube_id  :string(255)
+#  spotify_id  :string(255)
+#  deezer_id   :string(255)
 #
 
 require 'spec_helper'

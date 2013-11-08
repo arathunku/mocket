@@ -150,41 +150,64 @@ describe UsersController do
       end
     end
 
-    describe "#new_api_song" do
-      before(:each) do
-        @access_token = 'abcd'
+    describe "#api" do
+      describe "#new_song" do
+        before(:each) do
+          @access_token = 'abcd'
+        end
+
+        it "searches for user by access token" do
+          User.should_receive(:find_by_access_token).with(@access_token).and_return(@user)
+          @post.search = ''
+          Post.stub(:new).and_return(@post)
+          post :new_api_song, {post: {}, access_token: @access_token}
+        end
+
+        it "401 if user not found" do
+          User.should_receive(:find_by_access_token).and_return(nil)
+          post :new_api_song, {post: {}, access_token: @access_token}
+          expect(response.status).to eq(401)
+        end
+
+        it "return 422 for empty search" do
+          User.stub(:find_by_access_token).and_return(@user)
+          @post.search = ''
+          Post.should_receive(:new).and_return(@post)
+          post :new_api_song, {post: {}}
+          expect(response.status).to eq(422)
+        end
+
+        it "creats proper post" do
+          User.stub(:find_by_access_token).and_return(@user)
+          hash = {
+            post: {
+              search: @post.search,
+              source_url: @post.source_url,
+              song_url: @post.song_url
+            }
+          }
+          Post.should_receive(:new).with({
+            "search"=> @post.search,
+            "source_url"=> @post.source_url,
+            "song_url"=> @post.song_url,
+          }).and_return(@post)
+          Post.any_instance.should_receive(:save).and_return(@post)
+          post :new_api_song, hash
+          expect(response.status).to eq(200)
+        end
       end
 
-      it "searches for user by access token" do
-        User.should_receive(:find_by_access_token).with(@access_token).and_return(@user)
-        @post.search = ''
-        Post.stub(:new).and_return(@post)
-        post :new_api_song, {post: {}, access_token: @access_token}
-      end
+      describe "#history" do
+        before(:each) do
+          @access_token = 'abcd'
+          @user.access_token = @access_token
+          @user.save
+        end
 
-      it "401 if user not found" do
-        User.should_receive(:find_by_access_token).and_return(nil)
-        post :new_api_song, {post: {}, access_token: @access_token}
-        expect(response.status).to eq(401)
-      end
-
-      it "return 422 for empty search" do
-        User.stub(:find_by_access_token).and_return(@user)
-        @post.search = ''
-        Post.should_receive(:new).and_return(@post)
-        post :new_api_song, {post: {}}
-        expect(response.status).to eq(422)
-      end
-
-      it "creats post proper" do
-        User.stub(:find_by_access_token).and_return(@user)
-        hash = {post: {search: @post.search}}
-        Post.should_receive(:new).with({
-          "search"=> @post.search
-        }).and_return(@post)
-        Post.any_instance.should_receive(:save).and_return(@post)
-        post :new_api_song, hash
-        expect(response.status).to eq(200)
+        it "call user for history" do
+          User.any_instance.should_receive(:history).and_return([])
+          get :history, {access_token: @access_token}
+        end
       end
     end
   end

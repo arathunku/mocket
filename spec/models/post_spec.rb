@@ -10,6 +10,8 @@
 #  search     :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  source_url :string(255)
+#  song_url   :string(255)
 #
 
 require 'spec_helper'
@@ -22,6 +24,8 @@ describe Post do
   it { should respond_to(:archived) }
   it { should respond_to(:favorite) }
   it { should respond_to(:search) }
+  it { should respond_to(:source_url) }
+  it { should respond_to(:song_url) }
 
   it { should be_valid }
 

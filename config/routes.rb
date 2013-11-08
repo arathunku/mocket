@@ -19,6 +19,8 @@ Mocket::Application.routes.draw do
 
   delete '/posts/:id', to: 'users#destroy_song', as: "post"
 
+  get '/api/history', to: 'users#history', as: "history"
+
   get '/settings', to: 'settings#default', as: "settings"
   patch '/settings', to: 'settings#update'
   get '/settings/api', to: 'settings#api', as: "settings_api"
