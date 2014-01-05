@@ -5,7 +5,7 @@ FactoryGirl.define do
     user
     archived false
     favorite false
-    song_url 'http://www.youtube.com/?v=ij12i3jisaii'
+    song_url '' # 'http://www.youtube.com/?v=ij12i3jisaii'
     source_url 'http://www.facebook.com/posts/123213213213'
     search 'n'
   end

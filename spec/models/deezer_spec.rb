@@ -13,6 +13,12 @@ describe Deezer do
       expect(@deezer.html).to match(/iframe/)
     end
 
+    it "#get_information" do
+      Net::HTTP.should_receive(:get_response).and_return('{"error":{"type":"DataException","message":"no data","code":800}}')
+      expect(Deezer.get_information("99wfV4gMLYY")).to eq(nil)
+    end
+
+
     describe "#get_id" do
       pending "currently deezer for servers in US returns empty arrays"
       # it "proper json" do

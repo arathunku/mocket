@@ -22,9 +22,11 @@ li.song.clearfix
     .col-sm-8.col-md-offset-3.col-sm-offset-2.col-xs-12.col-md-6
       - song.services.each_with_index do |service, index|
         div class="service \
-          #{service.name == current_user.default_player ? \
-            'display' : 'hide'}"
-              = raw service.html
+        #{song.services_names.include?(current_user.default_player) && \
+          song.services.length > 1 && \
+          service.name != current_user.default_player ? \
+          'hide' : 'display'}"
+            = raw service.html
       - if song.services.length == 0
         div.service.display
           .sad

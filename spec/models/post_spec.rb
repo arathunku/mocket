@@ -39,17 +39,40 @@ describe Post do
     end
   end
 
+  it "after create callbacks" do
+    @post.should_receive(:detect_uri)
+    @post.should_receive(:fillup_song)
+    @post.save!
+  end
+
   context "methods" do
+    describe "#detect_uri" do
+      it "detects URI from search and moves it to song_url" do
+        uri = "https://www.youtube.com/watch?v=xxxxxxx"
+        Song.stub(:create_from_lastfm)
+        post = FactoryGirl.build(:post,
+          search: uri,
+          song_url: ''
+        )
+        post.detect_uri
+        expect(post.song_url).to eq(uri)
+      end
+    end
+
     describe "#fillup_song" do
-      it "calls for information with search attribute" do
+      it "get ID from song_url if present" do
+        @post.song_url = "https://www.youtube.com/watch?v=abcd"
         @song = FactoryGirl.build(:song)
-        Song.should_receive(:create_from_lastfm).with(@post.search).and_return(@song)
-        @post.save!
+        @post.should_receive(:get_service_id_from_uri)
+        Song.stub(:create_from_lastfm).and_return(nil)
+        @post.fillup_song
       end
 
-      it "after create callback" do
-        @post.should_receive(:fillup_song)
-        @post.save!
+      it "calls for information with search attribute" do
+        @song = FactoryGirl.build(:song)
+        Song.should_receive(:create_from_lastfm)
+          .with(@post.search, {}).and_return(nil)
+        @post.fillup_song
       end
 
       it "assigns song id to post" do
@@ -67,11 +90,32 @@ describe Post do
         expect(@post.song.id).to eq(nil)
         expect(@post.song.name).to eq(@post.search)
       end
+
       it "return song object" do
         @song = FactoryGirl.build(:song)
         @post.song_id = @song
         expect(@post.song.id).to eq(@song.id)
       end
+    end
+
+    describe "#get_service_id_from_uri" do
+      let(:id) { "xasa2321321" }
+
+      it "youtube" do
+        @post.song_url = "https://www.youtube.com/watch?v=#{id}"
+        expect(@post.get_service_id_from_uri[:youtube]).to eq(id)
+      end
+
+      it "spotify" do
+        @post.song_url = "spotify:track:#{id}"
+        expect(@post.get_service_id_from_uri[:spotify]).to eq(id)
+      end
+
+      it "deezer" do
+        @post.song_url = "http://www.deezer.com/track/#{id}"
+        expect(@post.get_service_id_from_uri[:deezer]).to eq(id)
+      end
+
     end
   end
 end

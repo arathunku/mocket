@@ -1,6 +1,5 @@
 class Youtube
-  attr_accessor :youtube_id
-  attr_accessor :id
+  attr_accessor :youtube_id, :id, :client
 
   @@client = YouTubeIt::Client.new(dev_key: ENV['YOUTUBE_KEY'])
 
@@ -9,8 +8,22 @@ class Youtube
     @id = youtube_id
   end
 
+
   def self.videos_by(args)
-    @@client.videos_by(args)
+    client.videos_by(args)
+  end
+
+  def self.get_information(id="")
+    result = client.video_by(id)
+    result ? result.title : nil
+  end
+
+  def self.client
+    @@client
+  end
+
+  def client
+    self.client
   end
 
   def html

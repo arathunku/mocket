@@ -18,6 +18,11 @@ class Spotify
     end
   end
 
+  def self.get_information(id='')
+    result = MetaSpotify::Track.lookup("spotify:track:#{id}")
+    result ? result.name : nil
+  end
+
   def html
     "<div class=\"spotify\"><iframe src=\"https://embed.spotify.com/?uri=spotify:track:#{id}\" width=\"300\" height=\"380\" frameborder=\"0\" allowtransparency=\"true\"></iframe></div>\n"
   end

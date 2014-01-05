@@ -24,6 +24,22 @@ class Deezer
     end
   end
 
+  def self.get_information(id)
+    response = Net::HTTP.get_response("api.deezer.com","/track/{id}")
+    if response
+      begin
+        json = JSON.parse(response.body || '')
+        json["error"] ? nil : json.title
+      rescue JSON::ParserError
+        nil
+      rescue
+        nil
+      end
+    else
+      nil
+    end
+  end
+
   def html
     "<div class=\"deezer\"><iframe scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" src=\"http://www.deezer.com/pl/plugins/player?autoplay=false&playlist=true&width=450&height=380&scover=true&type=tracks&id=#{id}&title=&app_id=#{ENV['DEEZER_ID']}\" width=\"450\" height=\"380\"></iframe></div>\n"
   end
@@ -31,4 +47,5 @@ class Deezer
   def name
     'deezer'
   end
+
 end

@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
     authorizations.first.photo
   end
 
+  def default_player
+    read_attribute(:default_player) || 'youtube'
+  end
+
   def update_token
     until update_attributes(access_token: generate_tracking_code(32));end
   end

@@ -82,9 +82,9 @@ describe Song do
     describe "#create_from_lastfm" do
       before(:each) do
         Song.stub(:lastfm_information).and_return(song_lastfm)
-        Song.any_instance.stub(:update_youtube).and_return(true)
-        Song.any_instance.stub(:update_spotify).and_return(true)
-        Song.any_instance.stub(:update_deezer).and_return(true)
+        Song.any_instance.stub(:get_youtube).and_return(true)
+        Song.any_instance.stub(:get_spotify).and_return(true)
+        Song.any_instance.stub(:get_deezer).and_return(true)
         @artist = FactoryGirl.create(:artist)
         @album = FactoryGirl.create(:album, artist: @artist)
       end
@@ -103,6 +103,9 @@ describe Song do
 
       context "song found" do
         before(:each) do
+          Youtube.stub(:get_youtube_information)
+          Spotify.stub(:get_spotify_information)
+          Deezer.stub(:get_deezer_information)
           Artist.stub(:find_or_create).and_return(@artist)
           Album.stub(:find_or_create).and_return(@album)
           Artist.any_instance.stub(:fill_up_tags).and_return(true)
@@ -118,19 +121,42 @@ describe Song do
           Song.create_from_lastfm("coma - transfuzja")
         end
 
-        it "calls for update_youtube " do
-          Song.any_instance.should_receive(:update_youtube)
+        it "calls for get_youtube " do
+          Song.any_instance.should_receive(:get_youtube)
           Song.create_from_lastfm("coma - transfuzja")
         end
 
-        it "calls for update_spotify" do
-          Song.any_instance.should_receive(:update_spotify)
+        it "calls for get_spotify" do
+          Song.any_instance.should_receive(:get_spotify)
           Song.create_from_lastfm("coma - transfuzja")
         end
 
-        it "calls for update_deezer" do
-          Song.any_instance.should_receive(:update_deezer)
+        it "calls for get_deezer" do
+          Song.any_instance.should_receive(:get_deezer)
           Song.create_from_lastfm("coma - transfuzja")
+        end
+
+        it "ommit call for get_youtube if id passed" do
+          Song.any_instance.should_not_receive(:get_youtube)
+          Song.any_instance.should_receive(:update_attributes)
+          Song.any_instance.stub(:get_youtube_information)
+            .and_return("coma - transfuzja")
+          Song.create_from_lastfm("coma - transfuzja", {youtube: "1"})
+        end
+
+        it "get youtube information if youtube_id passed" do
+          Song.any_instance.should_not_receive(:get_youtube)
+          Song.any_instance.should_receive(:get_youtube_information)
+            .and_return()
+          Song.create_from_lastfm("1", {youtube: "1"})
+        end
+
+        it "set information variable to new name" do
+          Song.any_instance.stub(:get_youtube_information)
+            .and_return("coma - transfuzja")
+          expect(Song).to receive(:lastfm_information)
+            .with("coma - transfuzja") { song_lastfm }
+          Song.create_from_lastfm("1", {youtube: "1"})
         end
 
         it "creates song" do
@@ -173,26 +199,26 @@ describe Song do
       expect(@song.deezer.class).to eq(Deezer)
     end
 
-    describe "#update_youtube" do
+    describe "#get_youtube" do
       it "calls for youtube information" do
         Youtube.stub(:videos_by)
         YouTubeIt::Response::VideoSearch.stub(:videos).and_return([])
         Youtube.should_receive(:videos_by).and_return(YouTubeIt::Response::VideoSearch)
-        @song.update_youtube
+        @song.get_youtube
       end
     end
 
-    describe "#update_spotify" do
+    describe "#get_spotify" do
       it "calls for spotify information" do
         Spotify.should_receive(:get_id).and_return('id')
-        @song.update_spotify
+        @song.get_spotify
       end
     end
 
     describe "#update_deezer" do
       it "calls for deezer information" do
         Spotify.should_receive(:get_id).and_return('id')
-        @song.update_spotify
+        @song.get_spotify
       end
     end
 
