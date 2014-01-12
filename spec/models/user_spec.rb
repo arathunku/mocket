@@ -15,7 +15,7 @@
 require 'spec_helper'
 
 describe User do
-  before { @user = User.new(name: "user", email: "user@mocket.com") }
+  before { @user = FactoryGirl.build(:user) }
 
   subject { @user }
 
@@ -70,6 +70,26 @@ describe User do
         Post.any_instance.stub(:fillup_song)
         post = FactoryGirl.create(:post, user: @user, song_url: nil)
         expect(@user.history).to match_array([post.search, post.source_url])
+      end
+    end
+
+    describe "#default_player" do
+      it "default player youtube" do
+        @user.default_player = nil
+        expect(@user.default_player).to eq('youtube')
+      end
+
+      it "proper player" do
+        @user.default_player = 'spotify'
+        expect(@user.default_player).to eq('spotify')
+      end
+    end
+
+    describe "#photo" do
+      it "call photo on authorization" do
+        @user.save!
+        expect_any_instance_of(Authorization).to receive(:photo)
+        @user.photo
       end
     end
   end

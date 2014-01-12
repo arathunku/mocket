@@ -187,16 +187,37 @@ describe Song do
       end
     end
 
-    it "#youtube" do
-      expect(@song.youtube.class).to eq(Youtube)
+    describe "#youtube" do
+      it "id is nil" do
+        @song.youtube_id = nil
+        expect(@song.youtube.id).to eq(nil)
+      end
+
+      it "valid id" do
+        expect(@song.youtube.id).to eq(@song.youtube_id)
+      end
     end
 
-    it "#spotify" do
-      expect(@song.spotify.class).to eq(Spotify)
+    describe "#spotify" do
+      it "id is nil" do
+        @song.spotify_id = nil
+        expect(@song.spotify.id).to eq(nil)
+      end
+
+      it "valid id" do
+        expect(@song.spotify.id).to eq(@song.spotify_id)
+      end
     end
 
-    it "#deezer" do
-      expect(@song.deezer.class).to eq(Deezer)
+    describe "#deezer" do
+      it "id is nil" do
+        @song.deezer_id = nil
+        expect(@song.deezer.id).to eq(nil)
+      end
+
+      it "valid id" do
+        expect(@song.deezer.id).to eq(@song.deezer_id)
+      end
     end
 
     describe "#get_youtube" do
@@ -234,6 +255,13 @@ describe Song do
         expect(@song.services).to include(@song.youtube)
         expect(@song.services).to include(@song.spotify)
         expect(@song.services).to include(@song.deezer)
+      end
+    end
+
+    describe "#services_names" do
+      it "call name on service" do
+        expect_any_instance_of(Youtube).to receive(:name)
+        @song.services_names
       end
     end
   end

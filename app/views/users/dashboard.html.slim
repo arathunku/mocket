@@ -10,7 +10,7 @@
       section.row.songs-container
         header.songs-controls.clearfix
           .col-xs-4.col-sm-4
-            h1 SONG LIST
+            a.pull-left href="#{export_path(category: action_name)}" export as a spotify  playlist
           .col-xs-8.col-sm-offset-2.col-sm-6
             = form_tag(dashboard_path, method: :post, class: "add-post") do |f|
               .input-group.pull-right {type="text"}
