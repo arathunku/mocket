@@ -4,7 +4,7 @@ require 'capistrano-unicorn'
 
 
 set :user, :ubuntu
-server "54.213.179.27", :app, :web, :db, :primary => true
+server "54.200.170.99", :app, :web, :db, :primary => true
 set :ssh_options, { :forward_agent => true }
 
 set :application, "mocket"
