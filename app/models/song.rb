@@ -99,34 +99,22 @@ class Song < ActiveRecord::Base
   end
 
   def youtube
-    if youtube_id
-      @youtube ||= Youtube.new(youtube_id)
-    else
-      nil
-    end
+    @youtube ||= Youtube.new(youtube_id)
   end
 
   def spotify
-    if spotify_id
-      @spotify ||= Spotify.new(spotify_id)
-    else
-      nil
-    end
+    @spotify ||= Spotify.new(spotify_id)
   end
 
   def deezer
-    if deezer_id
-      @deezer ||= Deezer.new(deezer_id)
-    else
-      nil
-    end
+    @deezer ||= Deezer.new(deezer_id)
   end
 
   def services
     @services ||= AVAILABLE_SERVICES.map do |service|
       self.send(service) if self.attributes["#{service.to_s}_id"]
     end
-      .compact
+      .compact.reject { |s| !s.id }
   end
 
   def services_names

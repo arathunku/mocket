@@ -5,7 +5,10 @@ FactoryGirl.define do
     sequence(:email) {|n| "email#{n}@factory.com" }
     invited true
     after(:create) do |user|
-      FactoryGirl.create(:authorization, user_id: user.id)
+      user.authorizations = [create(:authorization, user_id: user.id)]
+    end
+    after(:build) do |user|
+      user.authorizations = [build(:authorization, user_id: user.id)]
     end
   end
 end

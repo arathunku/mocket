@@ -83,6 +83,30 @@ describe Post do
       end
     end
 
+    describe "#get_links" do
+      it "result array" do
+        expect(Post.get_links([], 'spotify')).to eq([])
+      end
+
+      it "call to get link on passed post" do
+        post = double("post")
+        expect(post).to receive(:get_link).and_return('link')
+        Post.get_links([post], 'spotify')
+      end
+
+      it "empty array if no link" do
+        post = double("post", get_link: nil)
+        expect(Post.get_links([post], 'spotify')).to eq([])
+      end
+    end
+
+    describe "#get_link" do
+      it "calls for link" do
+        expect_any_instance_of(Spotify).to receive(:link)
+        @post.get_link('spotify')
+      end
+    end
+
     describe "#song" do
       it "if post does not have song, return new instance of song with search query as name" do
         @post.song_id = nil

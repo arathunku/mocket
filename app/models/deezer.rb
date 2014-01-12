@@ -4,7 +4,7 @@ class Deezer
 
   # @@client =
 
-  def initialize(deezer_d)
+  def initialize(deezer_d=nil)
     @deezer_d = deezer_d
     @id = deezer_d
   end
@@ -40,8 +40,16 @@ class Deezer
     end
   end
 
+  def link
+    if id
+      "http://www.deezer.com/pl/plugins/player?autoplay=false&playlist=true&width=450&height=380&scover=true&type=tracks&id=#{id}&title=&app_id=#{ENV['DEEZER_ID']}"
+    else
+      nil
+    end
+  end
+
   def html
-    "<div class=\"deezer\"><iframe scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" src=\"http://www.deezer.com/pl/plugins/player?autoplay=false&playlist=true&width=450&height=380&scover=true&type=tracks&id=#{id}&title=&app_id=#{ENV['DEEZER_ID']}\" width=\"450\" height=\"380\"></iframe></div>\n"
+    "<div class=\"deezer\"><iframe scrolling=\"no\" frameborder=\"0\" allowTransparency=\"true\" src=\"#{link}\" width=\"450\" height=\"380\"></iframe></div>\n"
   end
 
   def name

@@ -3,7 +3,7 @@ class Youtube
 
   @@client = YouTubeIt::Client.new(dev_key: ENV['YOUTUBE_KEY'])
 
-  def initialize(youtube_id)
+  def initialize(youtube_id=nil)
     @youtube_id = youtube_id
     @id = youtube_id
   end
@@ -26,8 +26,12 @@ class Youtube
     self.client
   end
 
+  def link
+    id ? "https://www.youtube.com/embed/#{id}" : nil
+  end
+
   def html
-    "<div class=\"youtube\"><iframe class=\"\" id=\"\" type=\"text/html\" width=\"425\" height=\"350\" src=\"http://www.youtube.com/embed/#{id}\" frameborder=\"0\"></iframe></div>\n"
+    "<div class=\"youtube\"><iframe class=\"\" id=\"\" type=\"text/html\" width=\"425\" height=\"350\" src=\"#{link}\" frameborder=\"0\"></iframe></div>\n"
   end
 
   def name

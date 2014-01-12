@@ -7,18 +7,16 @@ Mocket::Application.routes.draw do
   get '/login' => redirect { '/auth/google_oauth2' }
 
 
-  get '/archives', to: 'users#archives', as: "archives"
-  put '/posts/:id/archive', to: 'users#archive', as: "archive"
-
   get '/dashboard', to: 'users#dashboard', as: "dashboard"
   post '/dashboard', to: 'users#new_song'
-  post '/api/song', to: 'users#new_api_song'
-
+  get '/archives', to: 'users#archives', as: "archives"
+  put '/posts/:id/archive', to: 'users#archive', as: "archive"
   get '/favorites', to: 'users#favorites', as: "favorites"
   put '/posts/:id/favorite', to: 'users#favorite', as: "favorite"
-
   delete '/posts/:id', to: 'users#destroy_song', as: "post"
+  get "/posts/export", to: "users#export", as: "export"
 
+  post '/api/song', to: 'users#new_api_song'
   get '/api/history', to: 'users#history', as: "history"
 
   get '/settings', to: 'settings#default', as: "settings"

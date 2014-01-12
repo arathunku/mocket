@@ -78,6 +78,23 @@ class UsersController < ApplicationController
     render json: @user.history, status: 200
   end
 
+  def export
+    posts = if params[:category] == "dashboard"
+              current_user.posts.current
+            elsif params[:category] == "favorites"
+              current_user.posts.favorites
+            else
+              current_user.posts.archives
+            end
+    service = current_user.default_player
+    links = Post.get_links(posts, 'spotify')
+    if links.length > 0
+      render text: links.join('</br>')
+    else
+      render text: '0 spotify songs'
+    end
+  end
+
   private
   def authenticate_user_by_token
     @user = User.find_by_access_token(params[:access_token])

@@ -29,6 +29,19 @@ class Post < ActiveRecord::Base
   after_create :detect_uri
   after_create :fillup_song
 
+  def self.get_links(posts, service)
+    links = []
+    posts.each do |post|
+      link = post.get_link(service)
+      links.push link if link.present?
+    end
+    links
+  end
+
+  def get_link(service)
+    song.send(service).link
+  end
+
   def song
     return super() if song_id
     song = Song.new(name: search)
